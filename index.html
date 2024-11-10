@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Particle Explosion Animation</title>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #d8d8d8;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #61dafb;
+            color: #282c34;
+        }
+
+        .particles {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: #282c34;
+            border-radius: 50%;
+            opacity: 0;
+            animation: explode 0.5s forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(calc(200px * (random() - 0.5)), calc(200px * (random() - 0.5)));
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <button id="explodeButton">Click to Explode</button>
+        <div class="particles" id="particles"></div>
+    </div>
+    <script>
+        const explodeButton = document.getElementById('explodeButton');
+        const particlesContainer = document.getElementById('particles');
+
+        explodeButton.addEventListener('click', createParticles);
+
+        function createParticles() {
+            const particlesCount = 100;
+            for (let i = 0; i < particlesCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particlesContainer.appendChild(particle);
+
+                // Set random position and animation duration
+                const x = Math.random() * 100 + '%';
+                const y = Math.random() * 100 + '%';
+                const duration = Math.random() * 1 + 0.5 + 's';
+                const delay = Math.random() * 0.5 + 's';
+
+                particle.style.left = x;
+                particle.style.top = y;
+                particle.style.animationDuration = duration;
+                particle.style.animationDelay = delay;
+
+                // Remove the particle after animation ends
+                particle.addEventListener('animationend', () => {
+                    particle.remove();
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>
